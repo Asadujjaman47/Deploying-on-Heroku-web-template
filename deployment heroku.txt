@@ -10,9 +10,42 @@ check heroku version:
 >>>python manage.py runserver
 >>>Ctrl + c
 >>>heroku login 
+>>>git init
+>>>git status 
+>>>git add -A  
+>>>git status 
+>>>git commit -m "initialized our project" 
+>>>git branch -M main
+>>>git remote add origin https://github.com/Asadujjaman47/Deploying-on-Heroku-web-template.git
+>>>git push -u origin main
 
+#Now make a Procfile in project folder:
+Now check is it in project folder or not:
+>>>ls 
+in Procfile write:
+web: gunicorn
 
+copy the project name from setting:
+74 lines>>>
+WSGI_APPLICATION = 'hello_template_proj.wsgi.application'
 
+and now edit Procfile:
+web: gunicorn hello_template_proj.wsgi --log-file -
+
+Now we will install gunicorn in Shell:
+>>>pipenv install gunicorn
+
+#যে কোনো domain accept করার জন্য project এর setting:
+ALLOWED_HOSTS টা * মানে all করে দিবোঃ
+ALLOWED_HOSTS = ['*']
+
+#Heroku container create :
+heroku create   "Here write name"
+                 ----------------
+OR random name generate korar jonno:
+heroku create
+(here random name will generate)
+name has generate: ghostly-werewolf-18373
 
 
 
