@@ -1,0 +1,482 @@
+=================================
+in PowerShell:
+>>>cd C:\Users\User\Documents\Django\ch2_template_test
+>>>pipenv install django
+>>>pipenv shell
+>>>ls
+>>>django-admin startproject hello_template_proj .
+>>>ls
+>>>python manage.py startapp main_app
+>>>ls
+=================================
+in vs code:
+when create a new app, then keep app name in setting.py:
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+->  'main_app',
+]
+================================================
+the project url section urls.py:
+add include and show path:
+
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+->  path('',include('main_app.urls'))
+================================================	
+the create urls.py in main_app section and
+show path according to views:
+
+from django.urls import path, include
+
+from django.urls import path
+
+urlpatterns = [
+    #path('',))
+]
+================================================
+view section e TemplateView import kore:
+from django.views.generic import TemplateView
+
+class HomeView(TemplateView):
+    template_name = "index.html"
+================================================
+In main_app create directory template and file index.html:
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>A simple webpage</title>
+    </head>
+    <body>
+        <h1>My Simple Webpage</h1>
+    </body>
+</html>
+================================================
+now show path in urls.py section-
+first import views
+then set path:
+
+from django.urls import path
+from . import views
+urlpatterns = [
+    path('', views.HomeView.as_view(), name="home")
+]
+
+
+================================================
+
+Now in shell-
+>>>python manage.py runserver
+go to http://127.0.0.1:8000/ site to show result
+
+================================================
+
+Now we will show templating - mean pass value in parameter-
+
+index.html add body:
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>A simple webpage</title>
+    </head>
+    <body>
+        <h1>My Simple Webpage</h1>
+->
+        <div>
+            <p>
+                Name: {{ name}}
+            </p>
+            <p>
+                Country: {{ country }}
+            </p>
+        </div>
+    </body>
+</html>
+-----------------------------------------------
+then views.py write value:
+
+from django.views.generic import TemplateView
+
+class HomeView(TemplateView):
+    template_name = "index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+->
+        context['name'] = "Asadujjaman"
+        context['country']= "Bangladesh"
+
+        return context
+================================================
+
+show list with for loop-
+views.py:
+from django.views.generic import TemplateView
+
+class HomeView(TemplateView):
+    template_name = "index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['name'] = "Asadujjaman"
+        context['country']= "Bangladesh"
+->
+        list = [1,2,3,4,5]
+        context['list'] = list
+        
+
+        return context
+-------------------------------------------------------
+index.html:
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>A simple webpage</title>
+    </head>
+    <body>
+        <h1>My Simple Webpage</h1>
+        <div>
+            <p>
+                Name: {{ name}}
+            </p>
+            <p>
+                Country: {{ country }}
+            </p>
+->
+            <p>
+                {% for num in list %}
+                <h{{ num }}>Life is cool</h{{ num }}>
+                {% endfor %}
+            </p>
+        </div>
+    </body>
+</html>
+
+================================================
+
+for loop in modde if-else:
+                  -------
+
+index.html:
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>A simple webpage</title>
+    </head>
+    <body>
+        <h1>My Simple Webpage</h1>
+        <div>
+            <p>
+                Name: {{ name}}
+            </p>
+            <p>
+                Country: {{ country }}
+            </p>
+            <p>
+                {% for num in list %}
+->
+                {% if num <= 3 %}
+                <h{{ num }}>Life is cool. Be positive.</h{{ num }}>
+                {% else %}
+                <h{{ num }}>Life is difficult.</h{{ num }}>
+                {% endif %}
+                {% endfor %}
+            </p>
+        </div>
+    </body>
+</html>
+--------------------------------------------
+views.py:
+from django.views.generic import TemplateView
+
+class HomeView(TemplateView):
+    template_name = "index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['name'] = "Asadujjaman"
+        context['country']= "Bangladesh"
+
+        list = [1,2,3,4,5]
+        context['list'] = list
+        
+
+        return context
+
+================================================
+
+filter 
+views.py:
+#Name: {{ name | lower}}
+                 ----- #this is filtering...
+---------------------------------
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>A simple webpage</title>
+    </head>
+    <body>
+        <h1>My Simple Webpage</h1>
+        <div>
+            <p>
+->
+                Name: {{ name | lower}}
+            </p>
+            <p>
+                Country: {{ country }}
+            </p>
+            <p>
+                {% for num in list %}
+                {% if num <= 3 %}
+                <h{{ num }}>Life is cool. Be positive.</h{{ num }}>
+                {% else %}
+                <h{{ num }}>Life is difficult.</h{{ num }}>
+                {% endif %}
+                {% endfor %}
+            </p>
+        </div>
+    </body>
+</html>
+----------------------------------------
+Built-in template tags and filters 
+https://docs.djangoproject.com/en/2.0/ref/templates/builtins/
+
+================================================
+================================================
+for new page:
+in views section-
+	1.create class (in views.py:)
+		2.then create template (html file)
+3.In urls path define
+
+create class in views.py section:
+
+from django.views.generic import TemplateView
+1.
+class HomeView(TemplateView):
+    template_name = "index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['name'] = "Asadujjaman"
+        context['country']= "Bangladesh"
+
+        list = [1,2,3,4,5]
+        context['list'] = list
+
+
+        return context
+		
+->
+class AboutView(TemplateView):
+    template_name = "about.html"
+-----------------------------------
+2. then create template (html file) template>>>about.html:
+-----------------------------------
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>A simple webpage</title>
+    </head>
+    <body>
+        <h1>About me</h1>
+      
+        </div>
+    </body>
+</html>
+-----------------------------------
+3.In urls path define-
+urls.py:
+
+from django.urls import path
+from . import views
+urlpatterns = [
+    path('', views.HomeView.as_view(), name="home"),
+->  path('about/',views.AboutView.as_view(),name="about"),
+
+
+]
+
+===============================================
+hyperlink---
+index.html:
+------------
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>A simple webpage</title>
+    </head>
+    <body>
+->      <nav>
+            <a href="/">Home</a> |
+            <a href="{% url 'about' %}">About</a>
+        </nav>
+        <h1>My Simple Webpage</h1>
+        <div>
+            <p>
+                Name: {{ name | lower}}
+            </p>
+            <p>
+                Country: {{ country }}
+            </p>
+            <p>
+                {% for num in list %}
+                {% if num <= 3 %}
+                <h{{ num }}>Life is cool. Be positive.</h{{ num }}>
+                {% else %}
+                <h{{ num }}>Life is difficult.</h{{ num }}>
+                {% endif %}
+                {% endfor %}
+            </p>
+        </div>
+    </body>
+</html>
+----------------------------------
+about.html:
+-----------
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>A simple webpage</title>
+    </head>
+    <body>
+->      <nav>
+            <a href="/">Home</a> |
+            <a href="{% url 'about' %}">About</a>
+        </nav>
+        <h1>About me</h1>
+      
+        </div>
+    </body>
+</html>
+=========================
+common hyperlink file
+first create template>>>base.html
+and write:
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>A simple webpage</title>
+    </head>
+    <body>
+        <nav>
+            <a href="/">Home</a> |
+            <a href="{% url 'about' %}">About</a>
+        </nav>
+        
+        {% block body %}
+        {% endblock %}
+        
+    </body>
+</html>
+
+----------------------------------
+edit the index.html:
+{% extends 'base.html' %}
+{% block body %}
+
+<h1>My Simple Webpage</h1>
+<div>
+    <p>
+        Name: {{ name | lower}}
+    </p>
+    <p>
+        Country: {{ country }}
+    </p>
+    <p>
+        {% for num in list %}
+        {% if num <= 3 %}
+        <h{{ num }}>Life is cool. Be positive.</h{{ num }}>
+        {% else %}
+        <h{{ num }}>Life is difficult.</h{{ num }}>
+        {% endif %}
+        {% endfor %}
+    </p>
+</div>
+
+{% endblock %}
+
+------------------------------
+edit the about.html:
+{% extends 'base.html' %}
+{% block body %}
+
+
+
+<h1>About me</h1>
+
+{% endblock %}
+=====================================
+if whole project template same(or common template) then,
+First, move the template directory in project folder(upper folder),
+
+in setting.py:
+
+import os
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+->          os.path.join(BASE_DIR, 'templates')
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+
+=======================================
+project or app's function er unit test
+							 ----------
+tests.py:
+from django.test import SimpleTestCase
+
+class MainAppTest(SimpleTestCase):
+    def test_home_view_exist(self):
+        response = self.client.get('/')
+        self.assertEqual(response.status_code,200)
+
+    def test_about_view_exist(self):
+        response = self.client.get('/about/')
+        self.assertEqual(response.status_code,200)
+
+// eita ischa kore disi, bcz porfolio nam e kisu nai!!!!!!!!!!
+    def test_portfolio_view_exist(self):
+        response = self.client.get('/porfolio/')
+        self.assertEqual(response.status_code,200)						 
+-------------------------------------------------------
+in PowerShell:
+>>>python manage.py test
+
+// eikhane 3 ta test e porfolio ta wrong dekhabe
+line 14, in test_portfolio_view_exist
+    self.assertEqual(response.status_code,200)
+AssertionError: 404 != 200
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.031s
+
+FAILED (failures=1)
+
+========================================================
+
+
+

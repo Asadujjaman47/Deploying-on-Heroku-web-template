@@ -1,0 +1,21 @@
+check git version:
+>>>git --version
+
+check heroku version:
+>>>heroku --version
+
+>>> cd C:\Users\User\Documents\Django\ch2_template_test
+
+>>>pipenv shell
+>>>python manage.py runserver
+>>>Ctrl + c
+>>>heroku login 
+
+
+
+
+
+
+
+
+
