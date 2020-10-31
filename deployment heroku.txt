@@ -63,6 +63,11 @@ tai eder disable korte command:
 >>>git status
 
 
+>>>git push heroku master
+OR
+>>>git push heroku HEAD:master
+
+
 
 
 
