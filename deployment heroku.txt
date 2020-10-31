@@ -32,6 +32,7 @@ WSGI_APPLICATION = 'hello_template_proj.wsgi.application'
 and now edit Procfile:
 web: gunicorn hello_template_proj.wsgi --log-file -
 
+
 Now we will install gunicorn in Shell:
 >>>pipenv install gunicorn
 
@@ -66,6 +67,10 @@ tai eder disable korte command:
 >>>git push heroku master
 OR
 >>>git push heroku HEAD:master
+
+>>>heroku ps:scale web=1
+
+Now visit https://ghostly-werewolf-18373.herokuapp.com/
 
 
 
