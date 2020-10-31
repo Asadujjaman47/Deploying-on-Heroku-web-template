@@ -48,6 +48,21 @@ heroku create
 name has generate: ghostly-werewolf-18373
 
 
+name add kore dilam:
+>>>heroku git:remote -a ghostly-werewolf-18373  
+
+images, CSS, javascript er statics file use kori nai
+tai eder disable korte command:
+>>>heroku config:set DISABLE_COLLECTSTATIC=1
+
+
+>>>git status
+>>>git add .
+>>>git status  
+>>>git commit -m "Procfile created" 
+>>>git status
+
+
 
 
 
