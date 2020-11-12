@@ -1,6 +1,6 @@
 =================================
 in PowerShell:
->>>cd C:\Users\User\Documents\Django\ch2_template_test
+>>>cd C:\Users\akul\Documents\Django\ch2_template_test
 >>>pipenv install django
 >>>pipenv shell
 >>>ls
@@ -214,7 +214,7 @@ class HomeView(TemplateView):
 
 ================================================
 
-filter 
+filter use 
 views.py:
 #Name: {{ name | lower}}
                  ----- #this is filtering...
